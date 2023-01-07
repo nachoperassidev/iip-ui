@@ -5,7 +5,7 @@ const Image = ({ image }) => {
   if (!image) return null;
   return (
     <div className={styles.imageContainer}>
-      <Imgix className={styles.image} src={image.url} />
+      <Imgix className={styles.image} src={image.url} sizes="100vw" />
     </div>
   );
 };
