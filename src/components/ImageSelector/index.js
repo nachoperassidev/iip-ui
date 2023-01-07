@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Menu,
@@ -8,7 +9,25 @@ import {
   Box,
 } from '@chakra-ui/react';
 
-const ImageSelector = ({ images, selectedImageName, setSelectedImageName }) => {
+import { useStateContext } from '../../providers';
+import { fetchSampleImages } from '../../services';
+import { actionTypes } from '../../state';
+
+const ImageSelector = () => {
+  const [state, dispatch] = useStateContext();
+
+  const { images, selectedImageName } = state;
+
+  useEffect(() => {
+    if (!images.length) {
+      fetchSampleImages().then((images) =>
+        dispatch({ type: actionTypes.setImages, payload: images }),
+      );
+    } else if (!selectedImageName) {
+      dispatch({ type: actionTypes.setSelectedImage, payload: images[0].name });
+    }
+  }, [dispatch, images, selectedImageName]);
+
   return (
     <Box p={4}>
       <Menu>
@@ -17,7 +36,15 @@ const ImageSelector = ({ images, selectedImageName, setSelectedImageName }) => {
         </MenuButton>
         <MenuList maxHeight={300} overflowY="scroll">
           {images.map((image) => (
-            <MenuItem onClick={() => setSelectedImageName(image.name)}>
+            <MenuItem
+              key={image.name}
+              onClick={() =>
+                dispatch({
+                  type: actionTypes.setSelectedImage,
+                  payload: image.name,
+                })
+              }
+            >
               {image.name}
             </MenuItem>
           ))}
