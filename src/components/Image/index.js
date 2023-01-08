@@ -6,13 +6,11 @@ import { getSelectedImage } from '../../utils';
 import styles from './Image.module.css';
 
 const Image = () => {
-  const [state] = useStateContext();
+  const [{ images, selectedImageName }] = useStateContext();
 
-  const { images, selectedImageName } = state;
+  if (!images || !selectedImageName) return null;
 
   const selectedImage = getSelectedImage(images, selectedImageName);
-
-  if (!selectedImage) return null;
 
   return (
     <div className={styles.imageContainer}>

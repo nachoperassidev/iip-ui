@@ -1,4 +1,4 @@
-const { createContext, useReducer, useContext } = require('react');
+import { createContext, useReducer, useContext } from 'react';
 
 export const StateContext = createContext();
 

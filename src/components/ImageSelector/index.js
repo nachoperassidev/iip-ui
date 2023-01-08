@@ -10,23 +10,18 @@ import {
 } from '@chakra-ui/react';
 
 import { useStateContext } from '../../providers';
-import { fetchSampleImages } from '../../services';
 import { actionTypes } from '../../state';
 
 const ImageSelector = () => {
-  const [state, dispatch] = useStateContext();
-
-  const { images, selectedImageName } = state;
+  const [{ images, selectedImageName }, dispatch] = useStateContext();
 
   useEffect(() => {
-    if (!images.length) {
-      fetchSampleImages().then((images) =>
-        dispatch({ type: actionTypes.setImages, payload: images }),
-      );
-    } else if (!selectedImageName) {
+    if (images.length && !selectedImageName) {
       dispatch({ type: actionTypes.setSelectedImage, payload: images[0].name });
     }
   }, [dispatch, images, selectedImageName]);
+
+  if (!images) return null;
 
   return (
     <Box p={4}>
