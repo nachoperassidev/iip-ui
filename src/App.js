@@ -11,6 +11,7 @@ import VersionHistory from './components/VersionHistory';
 import BrowseHistoryButton from './components/BrowseHistoryButton';
 
 import './App.css';
+import ImageUrl from './components/ImageUrl';
 
 function App() {
   const [{ images }, dispatch] = useStateContext();
@@ -35,6 +36,7 @@ function App() {
           <Image />
           <BrowseHistoryButton />
           <CurrentImageActions />
+          <ImageUrl />
         </Box>
       </Flex>
     </div>

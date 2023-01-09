@@ -22,7 +22,7 @@ const Image = () => {
   });
 
   return (
-    <Flex height="60vh" bg="gray.100" justifyContent="center" p={4}>
+    <Flex height="50vh" bg="gray.100" justifyContent="center" p={4}>
       <ImgixComponent className={styles.image} src={imageUrl} sizes="100vw" />
     </Flex>
   );
