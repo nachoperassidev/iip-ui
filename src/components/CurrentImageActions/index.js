@@ -33,12 +33,9 @@ const CurrentImageActions = () => {
   const handleApplyNewFilter = () => {
     dispatch({
       type: actionTypes.addNewImageVersion,
-      payload: {
-        selectedImageName,
-        newVersion: buildNewImageVersion(currentImageVersion, {
-          [filterType]: filterValue,
-        }),
-      },
+      payload: buildNewImageVersion(currentImageVersion, {
+        [filterType]: filterValue,
+      }),
     });
     setFilterType('');
     setFilterValue('');

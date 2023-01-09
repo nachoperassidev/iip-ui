@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Box, Flex } from '@chakra-ui/react';
 
 import { useStateContext } from './providers';
 import { fetchSampleImages } from './services';
@@ -6,6 +7,8 @@ import { actionTypes } from './state';
 import Image from './components/Image';
 import ImageSelector from './components/ImageSelector';
 import CurrentImageActions from './components/CurrentImageActions';
+import VersionHistory from './components/VersionHistory';
+import BrowseHistoryButton from './components/BrowseHistoryButton';
 
 import './App.css';
 
@@ -22,9 +25,15 @@ function App() {
 
   return (
     <div className="App">
-      <ImageSelector />
-      <Image />
-      <CurrentImageActions />
+      <Flex>
+        <VersionHistory />
+        <Box flexGrow={1}>
+          <ImageSelector />
+          <Image />
+          <BrowseHistoryButton />
+          <CurrentImageActions />
+        </Box>
+      </Flex>
     </div>
   );
 }
