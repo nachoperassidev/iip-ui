@@ -16,9 +16,12 @@ function App() {
   const [{ images }, dispatch] = useStateContext();
 
   useEffect(() => {
-    if (!images.length) {
-      fetchSampleImages().then((images) =>
-        dispatch({ type: actionTypes.setImages, payload: images }),
+    if (!images) {
+      fetchSampleImages().then(({ images, versions }) =>
+        dispatch({
+          type: actionTypes.setImages,
+          payload: { images, versions },
+        }),
       );
     }
   }, [dispatch, images]);

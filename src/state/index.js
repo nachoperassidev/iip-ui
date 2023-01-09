@@ -1,7 +1,4 @@
-import { getSelectedImage } from '../utils';
-
 export const initialState = {
-  images: [],
   versionHistoryOpen: false,
 };
 
@@ -17,40 +14,46 @@ export const actionTypes = {
 export const mainReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.setImages: {
+      const { images, versions, selectedImageId } = action.payload;
       return {
         ...state,
-        images: action.payload,
+        images: {
+          ...images,
+          allIds: Object.keys(images),
+        },
+        versions,
+        selectedImageId,
       };
     }
     case actionTypes.setSelectedImage: {
-      const selectedImageName = action.payload;
-      const selectedImage = state.images.find(
-        (image) => image.name === selectedImageName,
-      );
-      return {
-        ...state,
-        selectedImageName: action.payload,
-        selectedVersionId: selectedImage.versions[0].id,
-      };
-    }
-    case actionTypes.addNewImageVersion: {
-      const newVersion = action.payload;
-      const selectedImage = getSelectedImage(
-        state.images,
-        state.selectedImageName,
-      );
-      const selectedImageWithNewVersion = {
-        ...selectedImage,
-        versions: [newVersion, ...(selectedImage.versions || [])],
-      };
+      const { images } = state;
+      const selectedImageId = action.payload;
+      const selectedImage = images[selectedImageId];
 
       return {
         ...state,
-        images: state.images.map((image) =>
-          image.name === state.selectedImageName
-            ? selectedImageWithNewVersion
-            : image,
-        ),
+        selectedImageId,
+        selectedVersionId: selectedImage.versions[0],
+      };
+    }
+    case actionTypes.addNewImageVersion: {
+      const { images, selectedImageId, versions } = state;
+      const newVersion = action.payload;
+      const selectedImage = images[selectedImageId];
+
+      return {
+        ...state,
+        images: {
+          ...images,
+          [selectedImageId]: {
+            ...selectedImage,
+            versions: [newVersion.id].concat(selectedImage.versions || []),
+          },
+        },
+        versions: {
+          ...versions,
+          [newVersion.id]: newVersion,
+        },
         selectedVersionId: newVersion.id,
       };
     }

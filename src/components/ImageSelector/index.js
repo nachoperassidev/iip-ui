@@ -13,13 +13,16 @@ import { useStateContext } from '../../providers';
 import { actionTypes } from '../../state';
 
 const ImageSelector = () => {
-  const [{ images, selectedImageName }, dispatch] = useStateContext();
+  const [{ images, selectedImageId }, dispatch] = useStateContext();
 
   useEffect(() => {
-    if (images.length && !selectedImageName) {
-      dispatch({ type: actionTypes.setSelectedImage, payload: images[0].name });
+    if (images && !selectedImageId) {
+      dispatch({
+        type: actionTypes.setSelectedImage,
+        payload: images.allIds[0],
+      });
     }
-  }, [dispatch, images, selectedImageName]);
+  }, [dispatch, images, selectedImageId]);
 
   if (!images) return null;
 
@@ -27,22 +30,25 @@ const ImageSelector = () => {
     <Box p={4}>
       <Menu>
         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-          {selectedImageName}
+          {selectedImageId}
         </MenuButton>
         <MenuList maxHeight={300} overflowY="scroll">
-          {images.map((image) => (
-            <MenuItem
-              key={image.name}
-              onClick={() =>
-                dispatch({
-                  type: actionTypes.setSelectedImage,
-                  payload: image.name,
-                })
-              }
-            >
-              {image.name}
-            </MenuItem>
-          ))}
+          {images.allIds.map((id) => {
+            const imageName = images[id].name;
+            return (
+              <MenuItem
+                key={imageName}
+                onClick={() =>
+                  dispatch({
+                    type: actionTypes.setSelectedImage,
+                    payload: imageName,
+                  })
+                }
+              >
+                {imageName}
+              </MenuItem>
+            );
+          })}
         </MenuList>
       </Menu>
     </Box>

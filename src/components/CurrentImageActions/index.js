@@ -14,7 +14,7 @@ import {
 
 import { useStateContext } from '../../providers';
 import { actionTypes } from '../../state';
-import { buildNewImageVersion, getSelectedImage } from '../../utils';
+import { buildNewImageVersion } from '../../utils';
 
 const filters = ['flip', 'orient', 'rot'];
 
@@ -22,13 +22,14 @@ const CurrentImageActions = () => {
   const [filterType, setFilterType] = useState('');
   const [filterValue, setFilterValue] = useState('');
 
-  const [{ images, selectedImageName }, dispatch] = useStateContext();
+  const [{ images, selectedImageId, selectedVersionId }, dispatch] =
+    useStateContext();
 
-  if (!images || !selectedImageName) return null;
+  if (!images || !selectedImageId) return null;
 
-  const selectedImage = getSelectedImage(images, selectedImageName);
+  const selectedImage = images[selectedImageId];
 
-  const currentImageVersion = selectedImage.versions?.[0];
+  const currentImageVersion = selectedImage.versions[0];
 
   const handleApplyNewFilter = () => {
     dispatch({
@@ -41,14 +42,31 @@ const CurrentImageActions = () => {
     setFilterValue('');
   };
 
+  if (selectedVersionId === currentImageVersion) {
+    // current version actions
+  } else {
+    // previous version actions
+  }
+
   return (
     <Box padding={4}>
       <Heading size="md" mb={4}>
         New filter
       </Heading>
-      <Flex width="100%" justifyContent="flex-start" alignItems="center">
+      <Flex
+        flexDir={{ base: 'column', sm: 'row' }}
+        width="100%"
+        alignItems="center"
+        flexWrap="wrap"
+      >
         <Menu>
-          <MenuButton as={Button} rightIcon={<ChevronDownIcon />} mr={4}>
+          <MenuButton
+            as={Button}
+            rightIcon={<ChevronDownIcon />}
+            width={{ base: '100%', sm: 'auto' }}
+            mr={{ base: 0, sm: 4 }}
+            mb={{ base: 4, sm: 0 }}
+          >
             {filterType}
           </MenuButton>
           <MenuList>
@@ -60,14 +78,16 @@ const CurrentImageActions = () => {
           </MenuList>
         </Menu>
         <Input
-          width="auto"
-          mr={4}
           value={filterValue}
           onChange={(e) => setFilterValue(e.target.value)}
+          mr={{ base: 0, sm: 4 }}
+          mb={{ base: 4, sm: 0 }}
+          width={{ base: '100%', sm: 'auto' }}
         />
         <Button
           disabled={!filterType || !filterValue}
           onClick={handleApplyNewFilter}
+          width={{ base: '100%', sm: 'auto' }}
         >
           Apply
         </Button>
