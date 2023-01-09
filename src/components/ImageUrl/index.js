@@ -7,8 +7,6 @@ const ImageUrl = () => {
   const [{ images, versions, selectedImageId, selectedVersionId }] =
     useStateContext();
 
-  if (!images || !selectedImageId) return null;
-
   const selectedImage = images[selectedImageId];
 
   const selectedVersion = versions[selectedVersionId];

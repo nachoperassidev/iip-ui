@@ -6,10 +6,7 @@ import { actionTypes } from '../../state';
 import VersionHistoryContent from './VersionHistoryContent';
 
 const VersionHistory = () => {
-  const [{ images, selectedImageId, versionHistoryOpen }, dispatch] =
-    useStateContext();
-
-  if (!images || !selectedImageId) return null;
+  const [{ versionHistoryOpen }, dispatch] = useStateContext();
 
   return (
     <Box minH="100vh">

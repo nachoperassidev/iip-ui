@@ -15,17 +15,6 @@ import { actionTypes } from '../../state';
 const ImageSelector = () => {
   const [{ images, selectedImageId }, dispatch] = useStateContext();
 
-  useEffect(() => {
-    if (images && !selectedImageId) {
-      dispatch({
-        type: actionTypes.setSelectedImage,
-        payload: images.allIds[0],
-      });
-    }
-  }, [dispatch, images, selectedImageId]);
-
-  if (!images) return null;
-
   return (
     <Box p={4}>
       <Menu>

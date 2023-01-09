@@ -39,10 +39,7 @@ const CurrentVersionActions = () => {
   const [filterType, setFilterType] = useState('');
   const [filterValue, setFilterValue] = useState('');
 
-  const [{ versions, images, selectedImageId, selectedVersionId }, dispatch] =
-    useStateContext();
-
-  if (!images || !selectedImageId) return null;
+  const [{ versions, selectedVersionId }, dispatch] = useStateContext();
 
   const currentImageVersion = versions[selectedVersionId];
 

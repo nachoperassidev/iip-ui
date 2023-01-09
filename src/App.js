@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 
 import { useStateContext } from './providers';
-import { fetchSampleImages } from './services';
-import { actionTypes } from './state';
+import { useSetInitialState } from './hooks';
 import Image from './components/Image';
 import ImageSelector from './components/ImageSelector';
 import ImageActions from './components/ImageActions';
@@ -14,33 +12,25 @@ import './App.css';
 import ImageUrl from './components/ImageUrl';
 
 function App() {
-  const [{ images }, dispatch] = useStateContext();
+  const [{ images, selectedImageId }] = useStateContext();
 
-  useEffect(() => {
-    if (!images) {
-      fetchSampleImages().then(({ images, versions }) =>
-        dispatch({
-          type: actionTypes.setImages,
-          payload: { images, versions },
-        }),
-      );
-    }
-  }, [dispatch, images]);
+  useSetInitialState();
 
-  return (
-    <div className="App">
-      <Flex>
-        <VersionHistory />
-        <Box flexGrow={1}>
-          <ImageSelector />
-          <Image />
-          <BrowseHistoryButton />
-          <ImageActions />
-          <ImageUrl />
-        </Box>
-      </Flex>
-    </div>
-  );
+  if (images && selectedImageId)
+    return (
+      <div className="App">
+        <Flex>
+          <VersionHistory />
+          <Box flexGrow={1}>
+            <ImageSelector />
+            <Image />
+            <BrowseHistoryButton />
+            <ImageActions />
+            <ImageUrl />
+          </Box>
+        </Flex>
+      </div>
+    );
 }
 
 export default App;
