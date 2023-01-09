@@ -16,20 +16,35 @@ import { useStateContext } from '../../providers';
 import { actionTypes } from '../../state';
 import { buildNewImageVersion } from '../../utils';
 
-const filters = ['flip', 'orient', 'rot'];
+const filters = [
+  'flip',
+  'orient',
+  'rot',
+  'bri',
+  'con',
+  'exp',
+  'gam',
+  'high',
+  'hue',
+  'invert',
+  'sat',
+  'shad',
+  'sharp',
+  'usm',
+  'usmrad',
+  'vib',
+];
 
-const CurrentImageActions = () => {
+const CurrentVersionActions = () => {
   const [filterType, setFilterType] = useState('');
   const [filterValue, setFilterValue] = useState('');
 
-  const [{ images, selectedImageId, selectedVersionId }, dispatch] =
+  const [{ versions, images, selectedImageId, selectedVersionId }, dispatch] =
     useStateContext();
 
   if (!images || !selectedImageId) return null;
 
-  const selectedImage = images[selectedImageId];
-
-  const currentImageVersion = selectedImage.versions[0];
+  const currentImageVersion = versions[selectedVersionId];
 
   const handleApplyNewFilter = () => {
     dispatch({
@@ -41,12 +56,6 @@ const CurrentImageActions = () => {
     setFilterType('');
     setFilterValue('');
   };
-
-  if (selectedVersionId === currentImageVersion) {
-    // current version actions
-  } else {
-    // previous version actions
-  }
 
   return (
     <Box padding={4}>
@@ -69,7 +78,7 @@ const CurrentImageActions = () => {
           >
             {filterType}
           </MenuButton>
-          <MenuList>
+          <MenuList maxHeight={300} overflowY="scroll">
             {filters.map((filter) => (
               <MenuItem key={filter} onClick={() => setFilterType(filter)}>
                 {filter}
@@ -96,4 +105,4 @@ const CurrentImageActions = () => {
   );
 };
 
-export default CurrentImageActions;
+export default CurrentVersionActions;

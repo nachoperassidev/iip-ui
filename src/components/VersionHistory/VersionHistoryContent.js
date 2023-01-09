@@ -24,7 +24,7 @@ const VersionHistoryContent = ({ onClose, ...rest }) => {
       h="full"
       {...rest}
     >
-      <Box pos="sticky" top={0} p={4}>
+      <Box pos="sticky" top={0} p={4} height="100vh" overflowY="scroll">
         <Flex alignItems="center" justifyContent="space-between" mb={8}>
           <Heading size="md" fontWeight="bold">
             Version history

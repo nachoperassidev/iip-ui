@@ -9,6 +9,7 @@ export const actionTypes = {
   openVersionHistory: 'OPEN_VERSION_HISTORY',
   closeVersionHistory: 'CLOSE_VERSION_HISTORY',
   setSelectedVersion: 'SET_SELECTED_VERSION',
+  restoreVersion: 'RESTORE_VERSION',
 };
 
 export const mainReducer = (state, action) => {
@@ -73,6 +74,24 @@ export const mainReducer = (state, action) => {
       return {
         ...state,
         selectedVersionId: action.payload,
+      };
+    }
+    case actionTypes.restoreVersion: {
+      const { images, selectedImageId, selectedVersionId } = state;
+
+      const selectedImage = images[selectedImageId];
+
+      return {
+        ...state,
+        images: {
+          ...images,
+          [selectedImageId]: {
+            ...selectedImage,
+            versions: selectedImage.versions.slice(
+              selectedImage.versions.indexOf(selectedVersionId),
+            ),
+          },
+        },
       };
     }
     default:

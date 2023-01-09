@@ -6,7 +6,7 @@ import { fetchSampleImages } from './services';
 import { actionTypes } from './state';
 import Image from './components/Image';
 import ImageSelector from './components/ImageSelector';
-import CurrentImageActions from './components/CurrentImageActions';
+import ImageActions from './components/ImageActions';
 import VersionHistory from './components/VersionHistory';
 import BrowseHistoryButton from './components/BrowseHistoryButton';
 
@@ -35,7 +35,7 @@ function App() {
           <ImageSelector />
           <Image />
           <BrowseHistoryButton />
-          <CurrentImageActions />
+          <ImageActions />
           <ImageUrl />
         </Box>
       </Flex>
