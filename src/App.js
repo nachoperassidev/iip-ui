@@ -7,9 +7,10 @@ import ImageSelector from './components/ImageSelector';
 import ImageActions from './components/ImageActions';
 import VersionHistory from './components/VersionHistory';
 import BrowseHistoryButton from './components/BrowseHistoryButton';
+import ImageUrl from './components/ImageUrl';
+import NewImageModal from './components/NewImageModal';
 
 import './App.css';
-import ImageUrl from './components/ImageUrl';
 
 function App() {
   const [{ images, selectedImageId }] = useStateContext();
@@ -27,6 +28,7 @@ function App() {
             <BrowseHistoryButton />
             <ImageActions />
             <ImageUrl />
+            <NewImageModal />
           </Box>
         </Flex>
       </div>

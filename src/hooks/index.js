@@ -1,18 +1,8 @@
 import { useEffect } from 'react';
-import { useDisclosure } from '@chakra-ui/react';
 
 import { useStateContext } from '../providers';
 import { fetchSampleImages } from '../services';
 import { actionTypes } from '../state';
-
-export const useVersionHistory = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  return {
-    isVersionHistoryOpen: isOpen,
-    onVersionHistoryOpen: onOpen,
-    onVersionHistoryClose: onClose,
-  };
-};
 
 export const useSetInitialState = () => {
   const [{ images, selectedImageId }, dispatch] = useStateContext();

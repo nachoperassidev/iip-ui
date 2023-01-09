@@ -1,5 +1,8 @@
+import { buildNewImageVersion } from '../utils';
+
 export const initialState = {
   versionHistoryOpen: false,
+  newImageModalOpen: false,
 };
 
 export const actionTypes = {
@@ -10,6 +13,9 @@ export const actionTypes = {
   closeVersionHistory: 'CLOSE_VERSION_HISTORY',
   setSelectedVersion: 'SET_SELECTED_VERSION',
   restoreVersion: 'RESTORE_VERSION',
+  openNewImageModal: 'OPEN_NEW_IMAGE_MODAL',
+  closeNewImageModal: 'CLOSE_NEW_IMAGE_MODAL',
+  addNewImage: 'ADD_NEW_IMAGE',
 };
 
 export const mainReducer = (state, action) => {
@@ -91,6 +97,37 @@ export const mainReducer = (state, action) => {
               selectedImage.versions.indexOf(selectedVersionId),
             ),
           },
+        },
+      };
+    }
+    case actionTypes.openNewImageModal: {
+      return {
+        ...state,
+        newImageModalOpen: true,
+      };
+    }
+    case actionTypes.closeNewImageModal: {
+      return {
+        ...state,
+        newImageModalOpen: false,
+      };
+    }
+    case actionTypes.addNewImage: {
+      const { name, url } = action.payload;
+      const { images, versions } = state;
+
+      const initialVersion = buildNewImageVersion({ isInitialVersion: true });
+
+      return {
+        ...state,
+        images: {
+          ...images,
+          [name]: { name, url, versions: [initialVersion.id], userAdded: true },
+          allIds: [name].concat(images.allIds),
+        },
+        versions: {
+          ...versions,
+          [initialVersion.id]: initialVersion,
         },
       };
     }

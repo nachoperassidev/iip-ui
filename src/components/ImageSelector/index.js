@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Menu,
@@ -6,7 +5,8 @@ import {
   MenuItem,
   MenuButton,
   Button,
-  Box,
+  Flex,
+  MenuGroup,
 } from '@chakra-ui/react';
 
 import { useStateContext } from '../../providers';
@@ -15,32 +15,71 @@ import { actionTypes } from '../../state';
 const ImageSelector = () => {
   const [{ images, selectedImageId }, dispatch] = useStateContext();
 
+  const userImages = images.allIds.filter((image) => images[image].userAdded);
+
+  const sampleImages = images.allIds.filter(
+    (image) => !userImages.includes(image),
+  );
+
   return (
-    <Box p={4}>
+    <Flex justifyContent="space-between" p={4}>
       <Menu>
         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
           {selectedImageId}
         </MenuButton>
         <MenuList maxHeight={300} overflowY="scroll">
-          {images.allIds.map((id) => {
-            const imageName = images[id].name;
-            return (
-              <MenuItem
-                key={imageName}
-                onClick={() =>
-                  dispatch({
-                    type: actionTypes.setSelectedImage,
-                    payload: imageName,
-                  })
-                }
-              >
-                {imageName}
-              </MenuItem>
-            );
-          })}
+          {userImages.length ? (
+            <MenuGroup title="Your images">
+              {userImages.map((id) => {
+                const imageName = images[id].name;
+                return (
+                  <MenuItem
+                    key={imageName}
+                    onClick={() =>
+                      dispatch({
+                        type: actionTypes.setSelectedImage,
+                        payload: imageName,
+                      })
+                    }
+                  >
+                    {imageName}
+                  </MenuItem>
+                );
+              })}
+            </MenuGroup>
+          ) : (
+            ''
+          )}
+          <MenuGroup title="Sample images">
+            {sampleImages.map((id) => {
+              const imageName = images[id].name;
+              return (
+                <MenuItem
+                  key={imageName}
+                  onClick={() =>
+                    dispatch({
+                      type: actionTypes.setSelectedImage,
+                      payload: imageName,
+                    })
+                  }
+                >
+                  {imageName}
+                </MenuItem>
+              );
+            })}
+          </MenuGroup>
         </MenuList>
       </Menu>
-    </Box>
+      <Button
+        onClick={() =>
+          dispatch({
+            type: actionTypes.openNewImageModal,
+          })
+        }
+      >
+        Add new image
+      </Button>
+    </Flex>
   );
 };
 

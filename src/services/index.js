@@ -1,3 +1,5 @@
+import { buildNewImageVersion } from '../utils';
+
 export const fetchSampleImages = async () => {
   const sampleImagesResponse = await fetch(
     'https://storage.googleapis.com/nanlabs-engineering-technical-interviews/imgix-samples-list.json',
@@ -10,17 +12,11 @@ export const fetchSampleImages = async () => {
   const versions = {};
 
   sampleImages.forEach((image) => {
-    const date = new Date();
-    const newVersionId = Number(date);
-    const newVersion = {
-      id: newVersionId,
-      initialVersion: true,
-      filters: {},
-    };
-    versions[newVersionId] = newVersion;
+    const initialVersion = buildNewImageVersion({ isInitialVersion: true });
+    versions[initialVersion.id] = initialVersion;
     images[image.name] = {
       ...image,
-      versions: [newVersionId],
+      versions: [initialVersion.id],
     };
   });
 
